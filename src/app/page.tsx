@@ -1,101 +1,135 @@
-import Image from "next/image";
+"use client";
+
+import Link from "next/link";
+import { useState } from "react";
+import { FaSearch, FaFilter } from "react-icons/fa";
+
+interface Report {
+  nome: string;
+  descricao: string;
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [showFilters, setShowFilters] = useState(false);
+  const [categoria, setCategoria] = useState("Denuncias");
+  const [search, setSearch] = useState("");
+  const [status, setStatus] = useState("todos");
+  const [cnpj, setCnpj] = useState("");
+  const [report, setReport] = useState<Report[]>([]);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
+  const totalElementos = report.length;
+
+  const toggleFilters = () => {
+    setShowFilters(!showFilters);
+  };
+
+  const limparFiltros = () => {
+    setSearch("");
+    setStatus("todos");
+    setCnpj("");
+  };
+
+  return (
+    <div className="min-h-screen">
+      <header className="flex justify-between items-center py-4 px-6">
+        <h1 className="text-xl font-bold text-[#378c77]">SIG-SEG</h1>
+
+        <nav className="hidden lg:flex gap-6">
+          <a href="#" className="text-[#378c77] font-bold">
+            Home
           </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
+          <a href="#" className="text-gray-700 hover:text-black">
+            Sobre mim
           </a>
+        </nav>
+
+        <div className="flex gap-6">
+          <Link
+            href="/signup"
+            className="text-black px-4 py-2 rounded-lg hover:text-[#378c77]"
+          >
+            Sign Up
+          </Link>
+
+          <Link
+            href="/login"
+            className="bg-[#378c77] text-white px-4 py-2 rounded-lg"
+          >
+            Login
+          </Link>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </header>
+
+      <div className="m-6 mt-0 bg-gray-50 rounded-lg p-6 py-10 text-center">
+        <h2 className="text-2xl font-bold">
+          Busque por{" "}
+          <span className="underline text-[#378c77]">
+            Denuncias ou Ocorrências
+          </span>
+        </h2>
+        <div className="mt-6 flex flex-wrap justify-center gap-4">
+          <div className="relative w-full sm:w-1/3">
+            <input
+              type="text"
+              placeholder="Ex.: Roubo"
+              className="border border-gray-300 rounded-lg pl-10 py-2 w-full"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <FaSearch className="absolute left-3 top-[50%] transform -translate-y-1/2 text-gray-500" />
+          </div>
+          <button
+            className="border border-gray-300 bg-white text-black px-4 py-2 rounded-lg flex items-center gap-2"
+            onClick={toggleFilters}
+          >
+            <FaFilter className="text-gray-500" /> Filtros
+          </button>
+          <button className="text-white px-6 py-2 rounded-lg bg-[#378c77]">
+            Buscar
+          </button>
+        </div>
+
+        {showFilters && (
+          <div className="flex flex-wrap justify-center gap-4 bg-white py-4 px-6 shadow rounded-lg mt-4">
+            <select
+              className="border border-gray-300 rounded-lg px-2 py-2"
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+            >
+              <option value="todos">Todos</option>
+              <option value="ativos">Ativos</option>
+              <option value="fechados">Fechados</option>
+            </select>
+            <input
+              type="text"
+              placeholder="CNPJ"
+              className="border border-gray-300 rounded-lg px-2 py-2"
+              value={cnpj}
+              onChange={(e) => setCnpj(e.target.value)}
+            />
+            <button className="text-[#378c77]" onClick={limparFiltros}>
+              Limpar
+            </button>
+          </div>
+        )}
+      </div>
+
+      <div className="flex align-center p-6">
+        <h1 className="text-1xl font-bold">
+          {totalElementos} {categoria}
+        </h1>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+        {report.map((report, index) => (
+          <div
+            key={index}
+            className="flex flex-col h-full border p-4 rounded-lg"
+          >
+            <h3 className="text-lg font-bold">{report.nome}</h3>
+            <p>{report.descricao}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
