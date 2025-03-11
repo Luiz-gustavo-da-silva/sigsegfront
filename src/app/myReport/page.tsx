@@ -5,16 +5,26 @@ import Header from "../components/header";
 import { findReportPublic } from "../core/services/reportService";
 import { Report } from "../core/models/report-interface";
 import { FaSearch } from "react-icons/fa";
+import ModalReport from "../components/modalReport";
 
 export default function MyReport() {
   const [loading, setLoading] = useState(false);
   const [report, setReport] = useState<Report | null>(null);
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     fetchOccurrence();
+  };
+
+  const handleModalClose = () => {
+    setModalVisible(false);
+  };
+
+  const handleReportSubmit = async (values: { description: string }) => {
+    console.log("Denúncia cadastrada:", values);
   };
 
   const fetchOccurrence = async () => {
@@ -22,16 +32,20 @@ export default function MyReport() {
     setLoading(true);
     const data = await findReportPublic(code);
 
-    if(data){
+    if (data) {
       setReport(data as Report);
       setError("");
-    }else{
+    } else {
       setReport(null);
       setError("Nenhuma denuncia encontrada para o código informado.");
     }
 
     setLoading(false);
   };
+
+  function firstCode(code: string){
+    return code.charAt(0);
+  }
 
   return (
     <div className="min-h-screen">
@@ -52,6 +66,7 @@ export default function MyReport() {
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
                 className="border border-gray-300 rounded-lg pl-10 py-2 w-full"
+                required
               />
               <FaSearch className="absolute left-3 top-[50%] transform -translate-y-1/2 text-gray-500" />
             </div>
@@ -68,7 +83,12 @@ export default function MyReport() {
 
       <div className="flex align-center p-6 justify-between">
         <h1 className="text-1xl font-bold">Denuncia</h1>
-        <button className="text-white px-6 py-2 rounded-lg bg-[#378c77]">+ Denuncia</button>
+        <button
+          className="text-white px-6 py-2 rounded-lg bg-[#378c77]"
+          onClick={() => setModalVisible(true)}
+        >
+          + Denuncia
+        </button>
       </div>
 
       {error && (
@@ -78,15 +98,73 @@ export default function MyReport() {
       )}
 
       {report && (
-        <div className="m-6 bg-white shadow-md rounded-lg p-6">
-          <h3 className="text-xl font-semibold">Detalhes da Ocorrência</h3>
-          <p><strong>Código:</strong> {report.code}</p>
-          <p><strong>Status:</strong> {report.status}  </p>
-          <p><strong>Descrição:</strong> {report.description}</p>
-          <p><strong>Criado em:</strong> {new Date(report.createdAt).toLocaleString()}</p>
-          <p><strong>Última atualização:</strong> {new Date(report.updatedAt).toLocaleString()}</p>
+        <div className="bg-white border border-gray-300 rounded-lg shadow p-6 flex flex-col h-full w-full sm:w-1/2 lg:w-1/3 xl:w-1/3 mx-auto">
+          <div className="flex items-center gap-4">
+            <div
+              className="w-[40px] h-[40px] rounded-full flex items-center justify-center text-white font-bold overflow-hidden"
+              style={{ backgroundColor: "#378c77" }}
+            >
+              {firstCode(report.code)}
+            </div>
+            <div>
+              <h3 className="font-bold text-lg text-gray-800">{report.code}</h3>
+              <p className="text-gray-500 text-sm">
+                {report.status === "PENDING"
+                  ? "Pendente"
+                  : report.status === "UNDER_REVIEW"
+                  ? "Em Revisão"
+                  : report.status === "CONVERTED_TO_OCCURRENCE"
+                  ? "Convertido em Ocorrência"
+                  : ""}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-4">
+            <span
+              className={`text-xs font-semibold px-2 py-1 rounded-lg ${
+                report.status === "PENDING"
+                  ? "bg-red-100 text-red-700"
+                  : report.status === "UNDER_REVIEW"
+                  ? "bg-yellow-100 text-yellow-700"
+                  : report.status === "CONVERTED_TO_OCCURRENCE"
+                  ? "bg-green-100 text-green-700"
+                  : ""
+              }`}
+            >
+              {report.status === "PENDING"
+                ? "Pendente"
+                : report.status === "UNDER_REVIEW"
+                ? "Em Revisão"
+                : report.status === "CONVERTED_TO_OCCURRENCE"
+                ? "Convertido em Ocorrência"
+                : ""}
+            </span>
+          </div>
+
+          <p className="text-sm text-gray-600 mt-4">
+            <span className="font-bold">Descrição:</span> {report.description}
+          </p>
+          <p className="text-sm text-gray-600">
+            <span className="font-bold">Criado em:</span>{" "}
+            {report.createdAt
+              ? new Date(report.createdAt).toLocaleString()
+              : "-"}
+          </p>
+          <p className="text-sm text-gray-600">
+            <span className="font-bold">Última atualização:</span>{" "}
+            {report.updatedAt
+              ? new Date(report.updatedAt).toLocaleString()
+              : "-"}
+          </p>
         </div>
       )}
+
+      <ModalReport
+        open={modalVisible}
+        onClose={handleModalClose}
+        onSubmit={handleReportSubmit}
+      />
     </div>
   );
 }
