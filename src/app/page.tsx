@@ -3,11 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { FaSearch, FaFilter } from "react-icons/fa";
-
-interface Report {
-  nome: string;
-  descricao: string;
-}
+import { Report } from "./core/models/report-interface";
 
 export default function Home() {
   const [showFilters, setShowFilters] = useState(false);

@@ -1,13 +1,9 @@
 'use server'
+import { RegisterData } from '@/app/core/models/registerData-interface';
 import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:3000/api/auth';
 
-interface RegisterData {
-    name: string;
-    email: string;
-    password: string;
-}
 
 export default async function registerAction(_prevState: any, formData: FormData) {
     const entries = Array.from(formData.entries());
