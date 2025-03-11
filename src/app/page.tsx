@@ -13,7 +13,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<FilterOccurrence>({
     description: "",
-    status: ""
+    status: "",
   });
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function Home() {
   const limparFiltros = () => {
     setFilters({
       description: "",
-      status: ""
+      status: "",
     });
     fetchOccurrence({
       description: "",
@@ -53,6 +53,10 @@ export default function Home() {
     fetchOccurrence(filters);
   };
 
+  function firstCode(code: string){
+    return code.charAt(0);
+  }
+
   return (
     <div className="min-h-screen">
       <Header />
@@ -60,9 +64,7 @@ export default function Home() {
         <div className="m-6 mt-0 bg-gray-50 rounded-lg p-6 py-10 text-center">
           <h2 className="text-2xl font-bold">
             Busque por{" "}
-            <span className="underline text-[#378c77]">
-              Ocorrências
-            </span>
+            <span className="underline text-[#378c77]">Ocorrências</span>
           </h2>
           <div className="mt-6 flex flex-wrap justify-center gap-4">
             <div className="relative w-full sm:w-1/3">
@@ -105,9 +107,7 @@ export default function Home() {
                 <option value="">Selecione o status</option>
                 <option value="OPEN">Aberta</option>
                 <option value="IN_PROGRESS">Em Progresso</option>
-                <option value="CLOSED">
-                  Fechada
-                </option>
+                <option value="CLOSED">Fechada</option>
               </select>
 
               <button className="text-[#378c77]" onClick={limparFiltros}>
@@ -121,30 +121,67 @@ export default function Home() {
       <div className="flex align-center p-6">
         <h1 className="text-1xl font-bold">{countReport} Ocorrências</h1>
       </div>
-      
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
         {loading ? (
           <p>Carregando...</p>
         ) : (
           occurrence.map((o, index) => (
-            <div
-              key={index}
-              className="flex flex-col h-full border p-4 rounded-lg shadow"
-            >
-              <p className="text-sm text-gray-600">{o.description}</p>
-              <p className="text-xs text-gray-400">
-                Criado em: {new Date(o.createdAt).toLocaleDateString()}
-              </p>
-              <p className="text-xs text-gray-400">
-                Status:{" "}
-                <span
-                  className={`px-2 py-1 rounded ${
-                    o.status === "ativos" ? "bg-green-200" : "bg-red-200"
-                  }`}
-                >
-                  {o.status}
-                </span>
-              </p>
+            <div key={index} className="flex flex-col h-full">
+              <div className="bg-white border border-gray-300 rounded-lg shadow p-4 flex flex-col h-full">
+                <div className="flex items-center gap-4">
+                  <div className="w-[40px] h-[40px] rounded-full flex items-center justify-center text-white font-bold overflow-hidden bg-[#378c77]">
+                  {firstCode(o.description)}
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-lg text-gray-800">{o.description}</h3>
+                    <p className="text-gray-500 text-sm">
+                      {o.status === "OPEN"
+                        ? "Aberto"
+                        : o.status === "IN_PROGRESS"
+                        ? "Em Progresso"
+                        : o.status === "CLOSED"
+                        ? "Fechado"
+                        : ""}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-4">
+                  <span
+                    className={`text-xs font-semibold px-2 py-1 rounded-lg ${
+                      o.status === "OPEN"
+                        ? "bg-red-100 text-red-700"
+                        : o.status === "IN_PROGRESS"
+                        ? "bg-yellow-100 text-yellow-700"
+                        : o.status === "CLOSED"
+                        ? "bg-green-100 text-green-700"
+                        : ""
+                    }`}
+                  >
+                    {o.status === "OPEN"
+                      ? "Aberto"
+                      : o.status === "IN_PROGRESS"
+                      ? "Em Progresso"
+                      : o.status === "CLOSED"
+                      ? "Fechado"
+                      : ""}
+                  </span>
+                </div>
+
+                <p className="text-sm text-gray-600 mt-4">
+                  <span className="text-1xl font-bold">Descrição:</span> {o.description}
+                </p>
+                <p className="text-sm text-gray-600">
+                  <span className="text-1xl font-bold">Criado em: </span>
+                  {new Date(o.createdAt).toLocaleDateString()}
+                </p>
+                <p className="text-sm text-gray-600">
+                  <span className="text-1xl font-bold">Última atualização</span>
+                  {new Date(o.updatedAt).toLocaleDateString()}
+                </p>
+              </div>
             </div>
           ))
         )}

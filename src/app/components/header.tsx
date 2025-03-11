@@ -6,7 +6,7 @@ export default function Header() {
       <h1 className="text-xl font-bold text-[#378c77]">SIG-SEG</h1>
 
       <nav className="hidden lg:flex gap-6">
-        <a href="/" className="text-[#378c77] font-bold">
+        <a href="/" className="text-gray-700 hover:text-black">
           Home
         </a>
         <a href="/myReport" className="text-gray-700 hover:text-black">
