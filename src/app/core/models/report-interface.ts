@@ -19,6 +19,7 @@ export interface Report {
   telephone?: string,
   address?: string,
   email?: string,
+  titleReport?: string
 }
 
 export interface ReportReq {
@@ -32,4 +33,5 @@ export interface ReportReq {
   telephone: string,
   address: string,
   email: string,
+  titleReport: string
 }

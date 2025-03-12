@@ -2,7 +2,7 @@ import { Modal, notification } from "antd";
 import { useState } from "react";
 import { createReport } from "../core/services/reportService";
 import { ReportReq } from "../core/models/report-interface";
-import { InputMask } from '@react-input/mask';
+import { InputMask } from "@react-input/mask";
 
 interface ReportModalProps {
   open: boolean;
@@ -28,6 +28,7 @@ const ModalReport: React.FC<ReportModalProps> = ({
     UFReport: "",
     countryReport: "",
     description: "",
+    titleReport: "",
   });
 
   const handleChange = (
@@ -101,7 +102,7 @@ const ModalReport: React.FC<ReportModalProps> = ({
               CPF do Denunciante
             </label>
             <InputMask
-              mask="___.___.___-__" 
+              mask="___.___.___-__"
               replacement={{ _: /\d/ }}
               name="CPF"
               placeholder="Ex. 123.456.789-12"
@@ -115,9 +116,11 @@ const ModalReport: React.FC<ReportModalProps> = ({
 
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
-            <label className="block text-sm font-medium">Telefone do Denunciante</label>
+            <label className="block text-sm font-medium">
+              Telefone do Denunciante
+            </label>
             <InputMask
-              mask="(__) _ ____-____" 
+              mask="(__) _ ____-____"
               replacement={{ _: /\d/ }}
               name="telephone"
               value={formData.telephone}
@@ -128,7 +131,9 @@ const ModalReport: React.FC<ReportModalProps> = ({
             />
           </div>
           <div>
-            <label className="block text-sm font-medium">Endereço do Denunciante</label>
+            <label className="block text-sm font-medium">
+              Endereço do Denunciante
+            </label>
             <input
               type="text"
               name="address"
@@ -142,7 +147,9 @@ const ModalReport: React.FC<ReportModalProps> = ({
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium">Email do Denunciante</label>
+          <label className="block text-sm font-medium">
+            Email do Denunciante
+          </label>
           <input
             type="email"
             name="email"
@@ -157,7 +164,9 @@ const ModalReport: React.FC<ReportModalProps> = ({
         <h3 className="font-semibold mb-3">Informações da Denúncia</h3>
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
-            <label className="block text-sm font-medium">Endereço da Denuncia</label>
+            <label className="block text-sm font-medium">
+              Endereço da Denuncia
+            </label>
             <input
               type="text"
               name="addressReport"
@@ -169,7 +178,9 @@ const ModalReport: React.FC<ReportModalProps> = ({
             />
           </div>
           <div>
-            <label className="block text-sm font-medium">Cidade da Denuncia</label>
+            <label className="block text-sm font-medium">
+              Cidade da Denuncia
+            </label>
             <input
               type="text"
               name="cityReport"
@@ -196,7 +207,9 @@ const ModalReport: React.FC<ReportModalProps> = ({
             />
           </div>
           <div>
-            <label className="block text-sm font-medium">País da Denuncia</label>
+            <label className="block text-sm font-medium">
+              País da Denuncia
+            </label>
             <input
               type="text"
               name="countryReport"
@@ -210,10 +223,27 @@ const ModalReport: React.FC<ReportModalProps> = ({
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium">Descrição da Denuncia</label>
+          <label className="block text-sm font-medium">
+            Título da Denuncia
+          </label>
+          <input
+            type="text"
+            name="titleReport"
+            placeholder="Ex. Fogo"
+            value={formData.titleReport}
+            onChange={handleChange}
+            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            required
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium">
+            Descrição da Denuncia
+          </label>
           <textarea
             name="description"
-            placeholder="Ex. Fogo"
+            placeholder="Ex. Fogo lá em casa"
             value={formData.description}
             onChange={handleChange}
             rows={4}

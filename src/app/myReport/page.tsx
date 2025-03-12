@@ -104,18 +104,12 @@ export default function MyReport() {
               className="w-[40px] h-[40px] rounded-full flex items-center justify-center text-white font-bold overflow-hidden"
               style={{ backgroundColor: "#378c77" }}
             >
-              {firstCode(report.code)}
+              {firstCode(report.titleReport ? report.titleReport : "-" )}
             </div>
             <div>
-              <h3 className="font-bold text-lg text-gray-800">{report.code}</h3>
+              <h3 className="font-bold text-lg text-gray-800">{report.titleReport ? report.titleReport : "-" }</h3>
               <p className="text-gray-500 text-sm">
-                {report.status === "PENDING"
-                  ? "Pendente"
-                  : report.status === "UNDER_REVIEW"
-                  ? "Em Revisão"
-                  : report.status === "CONVERTED_TO_OCCURRENCE"
-                  ? "Convertido em Ocorrência"
-                  : ""}
+                {report.code}
               </p>
             </div>
           </div>
