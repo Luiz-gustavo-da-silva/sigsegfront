@@ -9,6 +9,7 @@ export const findAllOccurrencePublic = async (filter: FilterOccurrence): Promise
     if (filter.description)
       queryParams.append("description", filter.description);
     if (filter.status) queryParams.append("status", filter.status);
+    if (filter.title) queryParams.append("title", filter.title);
 
     const response = await fetch(
       `http://localhost:3000/api/occurrence/public?${queryParams.toString()}`

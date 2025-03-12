@@ -14,6 +14,7 @@ export default function Home() {
   const [filters, setFilters] = useState<FilterOccurrence>({
     description: "",
     status: "",
+    title: ""
   });
 
   useEffect(() => {
@@ -41,10 +42,12 @@ export default function Home() {
     setFilters({
       description: "",
       status: "",
+      title: ""
     });
     fetchOccurrence({
       description: "",
       status: "",
+      title: ""
     });
   };
 
@@ -110,6 +113,16 @@ export default function Home() {
                 <option value="CLOSED">Fechada</option>
               </select>
 
+              <input
+                  id="title"
+                  type="text"
+                  placeholder="Título da ocorrência"
+                  name="title"
+                  value={filters.title}
+                  onChange={handleFilterChange}
+                  className="mt-1 block px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                />
+
               <button className="text-[#378c77]" onClick={limparFiltros}>
                 Limpar
               </button>
@@ -131,11 +144,11 @@ export default function Home() {
               <div className="bg-white border border-gray-300 rounded-lg shadow p-4 flex flex-col h-full">
                 <div className="flex items-center gap-4">
                   <div className="w-[40px] h-[40px] rounded-full flex items-center justify-center text-white font-bold overflow-hidden bg-[#378c77]">
-                  {firstCode(o.description)}
+                  {firstCode(o.title ? o.title : '-')}
                   </div>
 
                   <div>
-                    <h3 className="font-bold text-lg text-gray-800">{o.description}</h3>
+                    <h3 className="font-bold text-lg text-gray-800">{o.title ? o.title : '-'}</h3>
                     <p className="text-gray-500 text-sm">
                       {o.status === "OPEN"
                         ? "Aberto"

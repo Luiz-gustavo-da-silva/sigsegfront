@@ -8,4 +8,5 @@ export interface DataOccurrence {
     createdAt: string;
     updatedAt: string;
     status: string;
+    title?: string
   }
