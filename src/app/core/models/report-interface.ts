@@ -4,6 +4,7 @@ export interface DataReport {
 }
 
 export interface Report {
+  id?: number,
   code: string;
   status?: string;
   description: string;
