@@ -10,7 +10,7 @@ export default function Header() {
           Home
         </a>
         <a href="/myReport" className="text-gray-700 hover:text-black">
-          Minha Denuncia
+          Minha Denúncia
         </a>
       </nav>
 

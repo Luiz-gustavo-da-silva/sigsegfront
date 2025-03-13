@@ -132,7 +132,7 @@ const ModalOccurrence: React.FC<ReportModalProps> = ({
 
           <div>
             <label className="block text-sm font-medium mb-1">
-              Selecione a Denuncia
+              Selecione a Denúncia
             </label>
             <select
               name="reportId"

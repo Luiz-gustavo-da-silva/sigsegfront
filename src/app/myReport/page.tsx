@@ -54,8 +54,9 @@ export default function MyReport() {
       <form onSubmit={handleSearch}>
         <div className="m-6 mt-0 bg-gray-50 rounded-lg p-6 py-10 text-center">
           <h2 className="text-2xl font-bold">
-            Busque por{" "}
-            <span className="underline text-[#3065ac]">Denuncia</span>
+            <span className="mr-2">Busque por</span>
+           
+            <span className="underline text-[#3065ac]">Denúncias</span>
           </h2>
           <div className="mt-6 flex flex-wrap justify-center gap-4">
             <div className="relative w-full sm:w-1/3">
@@ -82,7 +83,7 @@ export default function MyReport() {
       </form>
 
       <div className="flex align-center p-6 justify-between">
-        <h1 className="text-1xl font-bold">Denuncia</h1>
+        <h1 className="text-1xl font-bold">Denúncias</h1>
         <button
           className="text-white px-6 py-2 rounded-lg bg-[#3065ac]"
           onClick={() => setModalVisible(true)}
