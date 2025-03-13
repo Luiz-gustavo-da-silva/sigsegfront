@@ -1,0 +1,242 @@
+"use client";
+
+import ModalOccurrence from "@/app/components/modalOccurrence";
+import { FilterOccurrencePrivate } from "@/app/core/models/filterOccurrence-interface";
+import { Occurrence } from "@/app/core/models/occurrence-interface";
+import { findAllOccurrencePrivate } from "@/app/core/services/occurrenceService";
+import { Table, Tag } from "antd";
+import type { ColumnsType } from "antd/es/table";
+import { useEffect, useState } from "react";
+
+interface statusColors {
+  OPEN: string;
+  IN_PROGRESS: string;
+  CLOSED: string;
+}
+
+export default function OccurrencePage() {
+  const [filters, setFilters] = useState<FilterOccurrencePrivate>({
+    description: "",
+    status: "",
+    title: "",
+    reportId: null,
+    userId: null,
+  });
+
+  const [loading, setLoading] = useState(true);
+  const [occurrence, setOccurrence] = useState<Occurrence[]>([]);
+  const [countReport, setCountOccurrence] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleFilterChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    fetchOccurrence(filters);
+  };
+
+  const handleClear = () => {
+    setFilters({
+      description: "",
+      status: "",
+      title: "",
+      reportId: null,
+      userId: null,
+    });
+    fetchOccurrence({
+      description: "",
+      status: "",
+      title: "",
+      reportId: null,
+      userId: null,
+    });
+  };
+
+  useEffect(() => {
+    fetchOccurrence(filters);
+  }, []);
+
+  const fetchOccurrence = async (filters: FilterOccurrencePrivate) => {
+    setLoading(true);
+    const data = await findAllOccurrencePrivate(filters);
+    setOccurrence(data?.occurrences ?? []);
+    setCountOccurrence(data?.count ?? 0);
+    setLoading(false);
+  };
+
+  const columns: ColumnsType<Occurrence> = [
+    { title: "ID", dataIndex: "id", key: "id" },
+    { title: "Título", dataIndex: "title", key: "title" },
+    { title: "Descrição", dataIndex: "description", key: "description" },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status: keyof statusColors) => {
+        const statusColors: statusColors = {
+          OPEN: "blue",
+          IN_PROGRESS: "orange",
+          CLOSED: "green",
+        };
+        return <Tag color={statusColors[status] || "default"}>{status}</Tag>;
+      },
+    },
+    {
+      title: "Data de Criação",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (date) => new Date(date).toLocaleDateString("pt-BR"),
+    },
+    { title: "Autor", dataIndex: ["user", "name"], key: "user" },
+    { title: "Denúncia", dataIndex: ["report", "titleReport"], key: "report" },
+    {
+      title: "Ações",
+      key: "actions",
+      render: (_, record) => (
+        <div>
+          <button type="button" onClick={() => handleView(record.id)} />
+          <button type="button" onClick={() => handleEdit(record.id)} />
+          <button type="button" onClick={() => handleDelete(record.id)} />
+        </div>
+      ),
+    },
+  ];
+
+  const handleEdit = (id: number) => {
+    console.log("Editar ocorrência", id);
+  };
+
+  const handleView = (id: number) => {
+    console.log("Visualizar ocorrência", id);
+  };
+
+  const handleDelete = (id: number) => {
+    console.log("Excluir ocorrência", id);
+  };
+
+  const handleModalClose = () => {
+    setModalVisible(false);
+    fetchOccurrence({
+      description: "",
+      status: "",
+      title: "",
+      reportId: null,
+      userId: null,
+    });
+  };
+
+  return (
+    <div className="bg-white p-3 h-full">
+      <div className="flex align-center justify-between bg-gray-50 py-3 px-2">
+        <h1 className="text-2xl font-bold">Ocorrências</h1>
+        <button
+          className="text-white px-6 py-2 rounded-lg bg-[#3065ac]"
+          onClick={() => setModalVisible(true)}
+        >
+          + Ocorrência
+        </button>
+      </div>
+
+      <form onSubmit={handleSearch} className="bg-gray-50">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 py-3 px-2">
+          <input
+            type="text"
+            placeholder="Descrição da ocorrência"
+            name="description"
+            value={filters.description}
+            onChange={handleFilterChange}
+            className="border border-gray-300 rounded-lg px-4 py-2 w-full"
+          />
+          <input
+            type="text"
+            placeholder="Título da ocorrência"
+            name="title"
+            value={filters.title}
+            onChange={handleFilterChange}
+            className="px-4 py-2 border border-gray-300 rounded-md shadow-sm w-full"
+          />
+
+          <select
+            name="status"
+            value={filters.status}
+            onChange={handleFilterChange}
+            className="px-4 py-2 border border-gray-300 rounded-md shadow-sm w-full"
+          >
+            <option value="">Selecione o status</option>
+            <option value="OPEN">Aberta</option>
+            <option value="IN_PROGRESS">Em Progresso</option>
+            <option value="CLOSED">Fechada</option>
+          </select>
+
+          <select
+            name="reportId"
+            value={filters.reportId ?? ""}
+            onChange={(e) =>
+              setFilters({
+                ...filters,
+                reportId: e.target.value ? Number(e.target.value) : null,
+              })
+            }
+            className="px-4 py-2 border border-gray-300 rounded-md shadow-sm w-full"
+          >
+            <option value="">Selecione a Denúncia</option>
+            <option value="1">aaaa</option>
+            <option value="2">bbbb</option>
+            <option value="3">ccc</option>
+          </select>
+
+          <select
+            name="userId"
+            value={filters.userId ?? ""}
+            onChange={(e) =>
+              setFilters({
+                ...filters,
+                userId: e.target.value ? Number(e.target.value) : null,
+              })
+            }
+            className="px-4 py-2 border border-gray-300 rounded-md shadow-sm w-full"
+          >
+            <option value="">Selecione o Autor</option>
+            <option value="1">aaaa</option>
+            <option value="2">bbbb</option>
+            <option value="3">ccc</option>
+          </select>
+        </div>
+
+        <div className="flex flex-col sm:flex-row justify-center items-center py-3 gap-3">
+          <button
+            type="button"
+            onClick={handleClear}
+            className="px-4 py-2 text-black rounded-md transition w-full sm:w-auto"
+          >
+            Limpar
+          </button>
+
+          <button
+            type="submit"
+            className="px-4 py-2 bg-[#3065ac] text-white rounded-md transition w-full sm:w-auto"
+          >
+            Buscar
+          </button>
+        </div>
+      </form>
+
+      <div className="mt-5">
+        <Table
+          columns={columns}
+          dataSource={occurrence}
+          rowKey="id"
+          loading={loading}
+          pagination={{ pageSize: 10, total: countReport }}
+        />
+      </div>
+
+      <ModalOccurrence open={modalVisible} onClose={handleModalClose} />
+    </div>
+  );
+}
