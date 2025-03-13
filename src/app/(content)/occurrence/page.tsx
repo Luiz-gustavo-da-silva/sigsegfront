@@ -135,6 +135,12 @@ export default function OccurrencePage() {
     setModalVisible(true);
   };
 
+  const handleCreate = () => {
+    setSelectedOccurrence(null);
+    setModalVisible(true);
+  };
+
+
   const handleDelete = async (id: number) => {
     try {
       await DeleteOccurrence(id);
@@ -170,7 +176,7 @@ export default function OccurrencePage() {
         <h1 className="text-2xl font-bold">Ocorrências</h1>
         <button
           className="text-white px-6 py-2 rounded-lg bg-[#3065ac]"
-          onClick={() => setModalVisible(true)}
+          onClick={() => handleCreate()}
         >
           + Ocorrência
         </button>
