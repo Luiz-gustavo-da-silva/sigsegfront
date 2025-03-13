@@ -2,7 +2,7 @@
 
 import { FilterReportPrivate } from "@/app/core/models/filterReport-interface";
 import { Report } from "@/app/core/models/report-interface";
-import { statusReportColors } from "@/app/core/models/statusColor";
+import { statusReportColors } from "@/app/core/models/statusColor-interface";
 import { statusReportTranslation } from "@/app/core/models/statusTradution-interface";
 import { findAllReportPrivate } from "@/app/core/services/reportService";
 import { InputMask } from "@react-input/mask";
