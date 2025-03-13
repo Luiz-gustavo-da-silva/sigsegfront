@@ -4,9 +4,11 @@ import ModalOccurrence from "@/app/components/modalOccurrence";
 import { FilterOccurrencePrivate } from "@/app/core/models/filterOccurrence-interface";
 import { Occurrence } from "@/app/core/models/occurrence-interface";
 import { findAllOccurrencePrivate } from "@/app/core/services/occurrenceService";
+import { findReportSimpleComplet } from "@/app/core/services/reportService";
 import { Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
+import { Report } from "@/app/core/models/report-interface";
 
 interface statusColors {
   OPEN: string;
@@ -27,6 +29,7 @@ export default function OccurrencePage() {
   const [occurrence, setOccurrence] = useState<Occurrence[]>([]);
   const [countReport, setCountOccurrence] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
+  const [reports, setReports] = useState<Report[]>([]);
 
   const handleFilterChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -59,7 +62,13 @@ export default function OccurrencePage() {
 
   useEffect(() => {
     fetchOccurrence(filters);
+    fetchDataReportSimple();
   }, []);
+
+  const fetchDataReportSimple = async () => {
+    const response = await findReportSimpleComplet();
+    setReports(response);
+  };
 
   const fetchOccurrence = async (filters: FilterOccurrencePrivate) => {
     setLoading(true);
@@ -146,19 +155,19 @@ export default function OccurrencePage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 py-3 px-2">
           <input
             type="text"
-            placeholder="Descrição da ocorrência"
-            name="description"
-            value={filters.description}
-            onChange={handleFilterChange}
-            className="border border-gray-300 rounded-lg px-4 py-2 w-full"
-          />
-          <input
-            type="text"
             placeholder="Título da ocorrência"
             name="title"
             value={filters.title}
             onChange={handleFilterChange}
             className="px-4 py-2 border border-gray-300 rounded-md shadow-sm w-full"
+          />
+          <input
+            type="text"
+            placeholder="Descrição da ocorrência"
+            name="description"
+            value={filters.description}
+            onChange={handleFilterChange}
+            className="border border-gray-300 rounded-lg px-4 py-2 w-full"
           />
 
           <select
@@ -175,19 +184,17 @@ export default function OccurrencePage() {
 
           <select
             name="reportId"
-            value={filters.reportId ?? ""}
-            onChange={(e) =>
-              setFilters({
-                ...filters,
-                reportId: e.target.value ? Number(e.target.value) : null,
-              })
-            }
-            className="px-4 py-2 border border-gray-300 rounded-md shadow-sm w-full"
+            id="reportId"
+            value={filters.reportId || ""}
+            onChange={handleFilterChange}
+            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           >
-            <option value="">Selecione a Denúncia</option>
-            <option value="1">aaaa</option>
-            <option value="2">bbbb</option>
-            <option value="3">ccc</option>
+            <option value="">Selecione um relatório</option>
+            {reports.map((report) => (
+              <option key={report.id} value={report.id}>
+                {report.titleReport || "Sem título"}
+              </option>
+            ))}
           </select>
         </div>
 

@@ -36,3 +36,20 @@ export const findReportSimple = async (): Promise<Report[]> => {
     return [];
   }
 };
+
+export const findReportSimpleComplet = async (): Promise<Report[]> => {
+
+  try {
+    const response = await fetchClient(
+      "http://localhost:3000/api/report/complet",
+      { method: "GET" }
+    );
+
+    const data = await response.json();
+
+    return data.data || [];
+
+  } catch (error) {
+    return [];
+  }
+};
