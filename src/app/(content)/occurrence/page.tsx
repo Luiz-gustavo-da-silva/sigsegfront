@@ -143,7 +143,7 @@ export default function OccurrencePage() {
       </div>
 
       <form onSubmit={handleSearch} className="bg-gray-50">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 py-3 px-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 py-3 px-2">
           <input
             type="text"
             placeholder="Descrição da ocorrência"
@@ -189,23 +189,6 @@ export default function OccurrencePage() {
             <option value="2">bbbb</option>
             <option value="3">ccc</option>
           </select>
-
-          <select
-            name="userId"
-            value={filters.userId ?? ""}
-            onChange={(e) =>
-              setFilters({
-                ...filters,
-                userId: e.target.value ? Number(e.target.value) : null,
-              })
-            }
-            className="px-4 py-2 border border-gray-300 rounded-md shadow-sm w-full"
-          >
-            <option value="">Selecione o Autor</option>
-            <option value="1">aaaa</option>
-            <option value="2">bbbb</option>
-            <option value="3">ccc</option>
-          </select>
         </div>
 
         <div className="flex flex-col sm:flex-row justify-center items-center py-3 gap-3">
@@ -226,7 +209,7 @@ export default function OccurrencePage() {
         </div>
       </form>
 
-      <div className="mt-5">
+      <div className="mt-5 overflow-auto">
         <Table
           columns={columns}
           dataSource={occurrence}
