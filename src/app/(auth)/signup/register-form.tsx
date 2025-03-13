@@ -97,7 +97,7 @@ export default function RegisterForm() {
         <button
           type="submit"
           disabled = {isPending}
-          className="w-full py-2 px-4 rounded-md bg-[#378c77] text-white transition"
+          className="w-full py-2 px-4 rounded-md bg-[#3065ac] text-white transition"
         >
           Sign Up
         </button>

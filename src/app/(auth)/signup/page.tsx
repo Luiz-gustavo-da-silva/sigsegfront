@@ -17,7 +17,7 @@ export default async function Signup() {
         <div className="flex justify-center mb-6">
             
         <Link href="/">
-            <div className="text-3xl font-bold text-[#378c77]">SIG-SEG</div>
+            <div className="text-3xl font-bold text-[#3065ac]">SIG-SEG</div>
         </Link>
           
         </div>
@@ -32,7 +32,7 @@ export default async function Signup() {
 
         <p className="mt-4 text-center text-sm text-gray-600">
           Já tem uma conta?{" "}
-          <Link href="/login" className="text-[#378c77] hover:underline">
+          <Link href="/login" className="text-[#3065ac] hover:underline">
             Login
           </Link>
         </p>

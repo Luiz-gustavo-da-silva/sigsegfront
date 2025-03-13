@@ -11,3 +11,19 @@ button{
 button:hover{
   opacity: 0.8;
 }
+
+.ant-layout{
+  min-height: 100vh;
+}
+
+.ant-layout-sider{
+  background: #3065ac;
+}
+
+.ant-menu-dark{
+  background-color: #3065ac;
+}
+
+.ant-menu-item-selected{
+  background-color: #3065ac !important;
+}

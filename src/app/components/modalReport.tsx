@@ -263,7 +263,7 @@ const ModalReport: React.FC<ReportModalProps> = ({
           <button
             type="submit"
             disabled={loading}
-            className="px-4 py-2 bg-[#378c77] text-white rounded"
+            className="px-4 py-2 bg-[#3065ac] text-white rounded"
           >
             {loading ? "Carregando..." : "Cadastrar"}
           </button>

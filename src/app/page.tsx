@@ -67,7 +67,7 @@ export default function Home() {
         <div className="m-6 mt-0 bg-gray-50 rounded-lg p-6 py-10 text-center">
           <h2 className="text-2xl font-bold">
             Busque por{" "}
-            <span className="underline text-[#378c77]">Ocorrências</span>
+            <span className="underline text-[#3065ac]">Ocorrências</span>
           </h2>
           <div className="mt-6 flex flex-wrap justify-center gap-4">
             <div className="relative w-full sm:w-1/3">
@@ -89,7 +89,7 @@ export default function Home() {
               <FaFilter className="text-gray-500" /> Filtros
             </button>
             <button
-              className="text-white px-6 py-2 rounded-lg bg-[#378c77]"
+              className="text-white px-6 py-2 rounded-lg bg-[#3065ac]"
               type="submit"
             >
               Buscar
@@ -123,7 +123,7 @@ export default function Home() {
                   className="mt-1 block px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 />
 
-              <button className="text-[#378c77]" onClick={limparFiltros}>
+              <button className="text-[#3065ac]" onClick={limparFiltros}>
                 Limpar
               </button>
             </div>
@@ -143,7 +143,7 @@ export default function Home() {
             <div key={index} className="flex flex-col h-full">
               <div className="bg-white border border-gray-300 rounded-lg shadow p-4 flex flex-col h-full">
                 <div className="flex items-center gap-4">
-                  <div className="w-[40px] h-[40px] rounded-full flex items-center justify-center text-white font-bold overflow-hidden bg-[#378c77]">
+                  <div className="w-[40px] h-[40px] rounded-full flex items-center justify-center text-white font-bold overflow-hidden bg-[#3065ac]">
                   {firstCode(o.title ? o.title : '-')}
                   </div>
 

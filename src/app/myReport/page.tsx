@@ -55,7 +55,7 @@ export default function MyReport() {
         <div className="m-6 mt-0 bg-gray-50 rounded-lg p-6 py-10 text-center">
           <h2 className="text-2xl font-bold">
             Busque por{" "}
-            <span className="underline text-[#378c77]">Denuncia</span>
+            <span className="underline text-[#3065ac]">Denuncia</span>
           </h2>
           <div className="mt-6 flex flex-wrap justify-center gap-4">
             <div className="relative w-full sm:w-1/3">
@@ -71,7 +71,7 @@ export default function MyReport() {
               <FaSearch className="absolute left-3 top-[50%] transform -translate-y-1/2 text-gray-500" />
             </div>
             <button
-              className="text-white px-6 py-2 rounded-lg bg-[#378c77]"
+              className="text-white px-6 py-2 rounded-lg bg-[#3065ac]"
               type="submit"
               disabled={loading}
             >
@@ -84,7 +84,7 @@ export default function MyReport() {
       <div className="flex align-center p-6 justify-between">
         <h1 className="text-1xl font-bold">Denuncia</h1>
         <button
-          className="text-white px-6 py-2 rounded-lg bg-[#378c77]"
+          className="text-white px-6 py-2 rounded-lg bg-[#3065ac]"
           onClick={() => setModalVisible(true)}
         >
           + Denuncia
@@ -101,8 +101,7 @@ export default function MyReport() {
         <div className="bg-white border border-gray-300 rounded-lg shadow p-6 flex flex-col h-full w-full sm:w-1/2 lg:w-1/3 xl:w-1/3 mx-auto">
           <div className="flex items-center gap-4">
             <div
-              className="w-[40px] h-[40px] rounded-full flex items-center justify-center text-white font-bold overflow-hidden"
-              style={{ backgroundColor: "#378c77" }}
+              className="w-[40px] h-[40px] rounded-full flex items-center justify-center text-white font-bold overflow-hidden bg-[#3065ac]"
             >
               {firstCode(report.titleReport ? report.titleReport : "-" )}
             </div>
