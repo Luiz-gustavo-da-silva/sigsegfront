@@ -1,6 +1,16 @@
 import { findUserByCredentials } from "@/app/lib/user";
-import NextAuth from "next-auth";
+import NextAuth, { Session } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      name: string;
+      email: string;
+    };
+  }
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -17,6 +27,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         if (user) {
           return {
+            id: user.id,
             name: user.name,
             email: user.email,
           };
@@ -26,4 +37,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async session({ session, token }) {
+      if (typeof token.id === 'string') {
+        session.user.id = token.id;
+      }
+      return session;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+  },
+  session: {
+    strategy: "jwt",
+  },
 });
