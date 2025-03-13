@@ -151,11 +151,11 @@ export default function Home() {
                     <h3 className="font-bold text-lg text-gray-800">{o.title ? o.title : '-'}</h3>
                     <p className="text-gray-500 text-sm">
                       {o.status === "OPEN"
-                        ? "Aberto"
+                        ? "Aberta"
                         : o.status === "IN_PROGRESS"
                         ? "Em Progresso"
                         : o.status === "CLOSED"
-                        ? "Fechado"
+                        ? "Fechada"
                         : ""}
                     </p>
                   </div>
@@ -174,11 +174,11 @@ export default function Home() {
                     }`}
                   >
                     {o.status === "OPEN"
-                      ? "Aberto"
+                      ? "Aberta"
                       : o.status === "IN_PROGRESS"
                       ? "Em Progresso"
                       : o.status === "CLOSED"
-                      ? "Fechado"
+                      ? "Fechada"
                       : ""}
                   </span>
                 </div>

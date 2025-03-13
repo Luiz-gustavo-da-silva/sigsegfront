@@ -10,6 +10,7 @@ import type { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
 import { Report } from "@/app/core/models/report-interface";
 import { statusOccurrenceColors } from "@/app/core/models/statusColor";
+import { statusOccurrenceTranslation } from "@/app/core/models/statusTradution-interface";
 
 
 export default function OccurrencePage() {
@@ -90,7 +91,7 @@ export default function OccurrencePage() {
           IN_PROGRESS: "orange",
           CLOSED: "green",
         };
-        return <Tag color={statusColors[status] || "default"}>{status}</Tag>;
+        return <Tag color={statusColors[status] || "default"}>{statusOccurrenceTranslation[status]}</Tag>;
       },
     },
     {

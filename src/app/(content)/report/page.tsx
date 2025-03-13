@@ -3,6 +3,7 @@
 import { FilterReportPrivate } from "@/app/core/models/filterReport-interface";
 import { Report } from "@/app/core/models/report-interface";
 import { statusReportColors } from "@/app/core/models/statusColor";
+import { statusReportTranslation } from "@/app/core/models/statusTradution-interface";
 import { findAllReportPrivate } from "@/app/core/services/reportService";
 import { InputMask } from "@react-input/mask";
 import { Tag } from "antd";
@@ -93,7 +94,7 @@ export default function ReportPage() {
           UNDER_REVIEW: "orange",
           CONVERTED_TO_OCCURRENCE: "green",
         };
-        return <Tag color={statusColors[status] || "default"}>{status}</Tag>;
+        return <Tag color={statusColors[status] || "default"}>{statusReportTranslation[status]}</Tag>;
       },
     },
     { title: "Autor", dataIndex: "reporterName", key: "Autor" },
