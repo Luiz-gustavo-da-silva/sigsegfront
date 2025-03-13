@@ -7,8 +7,10 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   WarningOutlined,
+  UserOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
-import { Button, Layout, Menu, Popover, theme } from "antd";
+import { Button, Layout, Menu, Dropdown, Avatar } from "antd";
 
 const { Header, Sider, Content } = Layout;
 import logoutAction from "@/app/(auth)/(logout)/logoutAction";
@@ -21,10 +23,6 @@ export default function layoutBase({
   children: React.ReactNode;
 }) {
   const [collapsed, setCollapsed] = useState(false);
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
-
   const menuItems = [
     {
       key: "1",
@@ -43,36 +41,47 @@ export default function layoutBase({
     },
   ];
 
+  const userMenu = {
+    items: [
+      {
+        key: "logout",
+        icon: <LogoutOutlined />,
+        label: (
+          <Form action={logoutAction}>
+            <button className="w-full text-left">Logout</button>
+          </Form>
+        ),
+      },
+    ],
+  };
+
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div>
-            <h1 className="text-2xl text-white ml-6 mt-4 mb-4">{!collapsed ? 'SIG-SEG': ''}</h1>
+          <h1 className="text-2xl text-white ml-6 mt-4 mb-4">
+            {!collapsed ? "SIG-SEG" : ""}
+          </h1>
         </div>
         <Menu theme="dark" mode="inline" items={menuItems} />
       </Sider>
       <Layout>
         <Header
-          style={{ padding: 0, background: '#f9fafb' }}
-          className="flex align-center justify-between bg-gray-50"
+          style={{ padding: 0, background: "#f9fafb" }}
+          className="flex items-center justify-between px-4 bg-gray-50 shadow-md"
         >
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: "16px",
-              width: 64,
-              height: 64,
-            }}
+            style={{ fontSize: "16px", width: 64, height: 64 }}
           />
-          <div>
-            <Form action={logoutAction}>
-              <button className="rounded-md bg-[#378c77] text-white  transition h-auto">
-                Logout
-              </button>
-            </Form>
-          </div>
+          <Dropdown menu={userMenu} placement="bottomRight" trigger={["click"]} className="mr-3">
+            <div className="flex items-center cursor-pointer gap-2 p-2 rounded-lg hover:bg-gray-100 transition">
+              <Avatar size="large" icon={<UserOutlined />} />
+              <span className="hidden md:inline font-medium">Usuário</span>
+            </div>
+          </Dropdown>
         </Header>
         <Content className="m-0">{children}</Content>
       </Layout>
