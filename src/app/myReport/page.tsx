@@ -37,7 +37,7 @@ export default function MyReport() {
       setError("");
     } else {
       setReport(null);
-      setError("Nenhuma denuncia encontrada para o código informado.");
+      setError("Nenhuma denúncia encontrada para o código informado.");
     }
 
     setLoading(false);

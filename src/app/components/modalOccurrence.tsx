@@ -77,7 +77,7 @@ const ModalOccurrence: React.FC<ReportModalProps> = ({
 
       const occurrenceData: OccurrenceReq = {
         id: occurrence?.id,
-        reportId: occurrence.report.id,
+        reportId: occurrence.report.id ?? null,
         userId: occurrence.user.id,
         description: occurrence.description,
         title: (occurrence.title ? occurrence.title : "" ),

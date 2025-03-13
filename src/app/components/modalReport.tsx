@@ -165,7 +165,7 @@ const ModalReport: React.FC<ReportModalProps> = ({
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
             <label className="block text-sm font-medium">
-              Endereço da Denuncia
+              Endereço da Denúncia
             </label>
             <input
               type="text"
@@ -179,7 +179,7 @@ const ModalReport: React.FC<ReportModalProps> = ({
           </div>
           <div>
             <label className="block text-sm font-medium">
-              Cidade da Denuncia
+              Cidade da Denúncia
             </label>
             <input
               type="text"
@@ -195,7 +195,7 @@ const ModalReport: React.FC<ReportModalProps> = ({
 
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
-            <label className="block text-sm font-medium">UF da Denuncia</label>
+            <label className="block text-sm font-medium">UF da Denúncia</label>
             <input
               type="text"
               name="UFReport"
@@ -208,7 +208,7 @@ const ModalReport: React.FC<ReportModalProps> = ({
           </div>
           <div>
             <label className="block text-sm font-medium">
-              País da Denuncia
+              País da Denúncia
             </label>
             <input
               type="text"
@@ -224,7 +224,7 @@ const ModalReport: React.FC<ReportModalProps> = ({
 
         <div className="mb-4">
           <label className="block text-sm font-medium">
-            Título da Denuncia
+            Título da Denúncia
           </label>
           <input
             type="text"
@@ -239,7 +239,7 @@ const ModalReport: React.FC<ReportModalProps> = ({
 
         <div className="mb-4">
           <label className="block text-sm font-medium">
-            Descrição da Denuncia
+            Descrição da Denúncia
           </label>
           <textarea
             name="description"
