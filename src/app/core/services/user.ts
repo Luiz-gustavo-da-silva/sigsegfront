@@ -1,7 +1,7 @@
 
 import axios from 'axios';
 import { User } from 'next-auth';
-import { LoginData } from '../core/models/login-interface';
+import { LoginData } from '../models/login-interface';
 import { cookies } from 'next/headers';
 
 const API_BASE_URL = 'http://localhost:3000/api/auth';

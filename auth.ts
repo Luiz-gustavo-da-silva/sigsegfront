@@ -1,4 +1,4 @@
-import { findUserByCredentials } from "@/app/lib/user";
+import { findUserByCredentials } from "@/app/core/services/user";
 import NextAuth, { Session } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
