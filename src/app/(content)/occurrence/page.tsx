@@ -9,12 +9,8 @@ import { notification, Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
 import { Report } from "@/app/core/models/report-interface";
+import { statusOccurrenceColors } from "@/app/core/models/statusColor";
 
-interface statusColors {
-  OPEN: string;
-  IN_PROGRESS: string;
-  CLOSED: string;
-}
 
 export default function OccurrencePage() {
   const [filters, setFilters] = useState<FilterOccurrencePrivate>({
@@ -27,7 +23,7 @@ export default function OccurrencePage() {
 
   const [loading, setLoading] = useState(true);
   const [occurrence, setOccurrence] = useState<Occurrence[]>([]);
-  const [countReport, setCountOccurrence] = useState(0);
+  const [countOccurrence, setCountOccurrence] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
   const [reports, setReports] = useState<Report[]>([]);
   const [selectedOccurrence, setSelectedOccurrence] = useState<Occurrence | null>(null);
@@ -88,8 +84,8 @@ export default function OccurrencePage() {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (status: keyof statusColors) => {
-        const statusColors: statusColors = {
+      render: (status: keyof statusOccurrenceColors) => {
+        const statusColors: statusOccurrenceColors = {
           OPEN: "blue",
           IN_PROGRESS: "orange",
           CLOSED: "green",
@@ -253,7 +249,7 @@ export default function OccurrencePage() {
           dataSource={occurrence}
           rowKey="id"
           loading={loading}
-          pagination={{ pageSize: 10, total: countReport }}
+          pagination={{ pageSize: 10, total: countOccurrence }}
         />
       </div>
 
