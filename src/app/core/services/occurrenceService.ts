@@ -68,3 +68,38 @@ export const createOccurrence = async (occurrence: OccurrenceReq): Promise<Occur
     throw new Error("Não foi possível criar a ocorrência. Tente novamente!");
   }
 };
+
+export const updateOccurrence = async (occurrence: OccurrenceReq): Promise<Occurrence> => {
+
+  try {
+    const response = await fetchClient("http://localhost:3000/api/occurrence/update", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(occurrence),
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error("Não foi possível criar a ocorrência. Tente novamente!");
+  }
+};
+
+export const DeleteOccurrence = async (id: number): Promise<Occurrence> => {
+
+  try {
+    const response = await fetchClient(`http://localhost:3000/api/occurrence/${id}`, {
+      method: "delete",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error("Não foi possível criar a ocorrência. Tente novamente!");
+  }
+};

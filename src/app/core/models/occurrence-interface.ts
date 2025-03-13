@@ -44,6 +44,7 @@ export interface User {
 }
 
 export interface OccurrenceReq {
+  id?: number,
 	reportId: number | null,
 	userId: number | null,
 	description: string,

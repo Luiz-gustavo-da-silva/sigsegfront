@@ -3,9 +3,9 @@
 import ModalOccurrence from "@/app/components/modalOccurrence";
 import { FilterOccurrencePrivate } from "@/app/core/models/filterOccurrence-interface";
 import { Occurrence } from "@/app/core/models/occurrence-interface";
-import { findAllOccurrencePrivate } from "@/app/core/services/occurrenceService";
+import { DeleteOccurrence, findAllOccurrencePrivate } from "@/app/core/services/occurrenceService";
 import { findReportSimpleComplet } from "@/app/core/services/reportService";
-import { Table, Tag } from "antd";
+import { notification, Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
 import { Report } from "@/app/core/models/report-interface";
@@ -30,6 +30,8 @@ export default function OccurrencePage() {
   const [countReport, setCountOccurrence] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
   const [reports, setReports] = useState<Report[]>([]);
+  const [selectedOccurrence, setSelectedOccurrence] = useState<Occurrence | null>(null);
+  const [api, contextHolder] = notification.useNotification();
 
   const handleFilterChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -104,30 +106,52 @@ export default function OccurrencePage() {
     { title: "Autor", dataIndex: ["user", "name"], key: "user" },
     { title: "Denúncia", dataIndex: ["report", "titleReport"], key: "report" },
     {
-      title: "Ações",
+      title: "",
       key: "actions",
       render: (_, record) => (
-        <div>
-          <button type="button" onClick={() => handleView(record.id)} />
-          <button type="button" onClick={() => handleEdit(record.id)} />
-          <button type="button" onClick={() => handleDelete(record.id)} />
-        </div>
+        <button
+          className="bg-blue-500 text-white px-3 py-1 rounded-md transition"
+          onClick={() => handleEdit(record)}
+        >
+          Editar
+        </button>
+      ),
+    },{
+      title: "",
+      key: "actions",
+      render: (_, record) => (
+        <button
+          className="bg-red-500 text-white px-3 py-1 rounded-md transition"
+          onClick={() => handleDelete(record.id)}
+        >
+          Deletar
+        </button>
       ),
     },
   ];
 
-  const handleEdit = (id: number) => {
-    console.log("Editar ocorrência", id);
+  const handleEdit = (occurrence: Occurrence) => {
+    setSelectedOccurrence(occurrence);
+    setModalVisible(true);
   };
 
-  const handleView = (id: number) => {
-    console.log("Visualizar ocorrência", id);
+  const handleDelete = async (id: number) => {
+    try {
+      await DeleteOccurrence(id);
+  
+      api.success({
+        message: "Ocorrência deletada",
+        description: "A ocorrência foi removida com sucesso!",
+      });
+  
+      fetchOccurrence(filters);
+    } catch (error) {
+      api.error({
+        message: "Erro ao deletar ocorrência",
+        description: "Tente novamente mais tarde.",
+      });
+    }
   };
-
-  const handleDelete = (id: number) => {
-    console.log("Excluir ocorrência", id);
-  };
-
   const handleModalClose = () => {
     setModalVisible(false);
     fetchOccurrence({
@@ -141,6 +165,7 @@ export default function OccurrencePage() {
 
   return (
     <div className="bg-white p-3 h-full">
+      {contextHolder}
       <div className="flex align-center justify-between bg-gray-50 py-3 px-2">
         <h1 className="text-2xl font-bold">Ocorrências</h1>
         <button
@@ -187,7 +212,7 @@ export default function OccurrencePage() {
             id="reportId"
             value={filters.reportId || ""}
             onChange={handleFilterChange}
-            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="">Selecione um relatório</option>
             {reports.map((report) => (
@@ -226,7 +251,7 @@ export default function OccurrencePage() {
         />
       </div>
 
-      <ModalOccurrence open={modalVisible} onClose={handleModalClose} />
+      <ModalOccurrence open={modalVisible} onClose={handleModalClose} occurrence={selectedOccurrence}/>
     </div>
   );
 }
